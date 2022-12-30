@@ -3,9 +3,14 @@ import { NextPageWithLayout } from "pages/_app";
 import React from "react";
 import styles from "./signup.module.scss";
 import classNames from "classnames/bind";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import InputWithAlert from "components/Forms/Inputs/InputWithAlert";
 import { emailRegex } from "common/regex";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "apis/auth";
+import { setTokenToLocalStorage } from "utils/localStorage";
+import { checkErrorOfAxios } from "utils/checkErrorOfAxios";
+import { useRouter } from "next/router";
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +21,8 @@ type Inputs = {
 };
 
 const SignUp: NextPageWithLayout = () => {
+  const router = useRouter();
+
   const {
     register,
     getValues,
@@ -30,11 +37,27 @@ const SignUp: NextPageWithLayout = () => {
     },
   });
 
+  const signupMutation = useMutation({
+    mutationFn: signUp,
+    onSuccess({ token, message }) {
+      alert(message);
+      setTokenToLocalStorage(token);
+      router.replace("/");
+    },
+    onError(error) {
+      if (checkErrorOfAxios(error)) {
+        alert(error.response?.data.details);
+        return;
+      }
+      alert("회원가입에 실패했습니다. 잠시 후에 시도해주세요.");
+    },
+  });
+
   const GuideSpans = {
     email() {
       if (errors.email) {
         return (
-          <span style={{ color: "red", fontSize: "14px" }}>
+          <span className={cx({ errorText: true })}>
             {errors.email.message}
           </span>
         );
@@ -45,7 +68,7 @@ const SignUp: NextPageWithLayout = () => {
     password() {
       if (errors.password) {
         return (
-          <span style={{ color: "red", fontSize: "14px" }}>
+          <span className={cx({ errorText: true })}>
             {errors.password.message}
           </span>
         );
@@ -56,7 +79,7 @@ const SignUp: NextPageWithLayout = () => {
     passwordCheck() {
       if (errors.passwordCheck) {
         return (
-          <span style={{ color: "red", fontSize: "14px" }}>
+          <span className={cx({ errorText: true })}>
             {errors.passwordCheck.message}
           </span>
         );
@@ -67,8 +90,8 @@ const SignUp: NextPageWithLayout = () => {
   };
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(
-    handleSubmit((e) => {
-      console.log("e ::::: ", e);
+    handleSubmit(({ email, password, passwordCheck }) => {
+      signupMutation.mutate({ email, password });
     }),
     []
   );
@@ -80,6 +103,7 @@ const SignUp: NextPageWithLayout = () => {
     <form className={cx({ wrapper: true })} onSubmit={onSubmit}>
       <InputWithAlert
         label="이메일"
+        type="email"
         alert={GuideSpans.email()}
         {...register("email", {
           required: "이메일은 필수입니다.",
@@ -91,6 +115,7 @@ const SignUp: NextPageWithLayout = () => {
       />
       <InputWithAlert
         label="비밇번호"
+        type="password"
         alert={GuideSpans.password()}
         {...register("password", {
           required: "비밀번호를 입력해주세요",
@@ -106,6 +131,7 @@ const SignUp: NextPageWithLayout = () => {
       />
       <InputWithAlert
         label="비밀번호 체크"
+        type="password"
         alert={GuideSpans.passwordCheck()}
         {...register("passwordCheck", {
           required: "비밀번호 확인을 입력해주세요.",
