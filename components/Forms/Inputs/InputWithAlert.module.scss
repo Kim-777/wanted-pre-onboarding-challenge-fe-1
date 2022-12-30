@@ -1,0 +1,29 @@
+
+.wrapper {
+  // padding: 10px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.label {
+  width: 100px;
+  margin-right: 8px;
+}
+
+.input_wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+}
+
+.input {
+  padding: 10px;
+  flex:1;
+}
+
+.alert {
+  position: absolute;
+  top: 44px;
+}

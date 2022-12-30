@@ -1,0 +1,39 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 50px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.input_wrapper {
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.label {
+  width: 100px;
+  // margin-right: 8px;
+}
+
+.input {
+  padding: 10px;
+  flex:1;
+}
+
+.form_button {
+  padding: 10px;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: all 200ms ease;
+
+  &:disabled {
+    background-color: grey;
+    color: white;
+    cursor: not-allowed;
+  }
+}
