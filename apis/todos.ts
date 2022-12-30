@@ -1,5 +1,5 @@
 import { restApi } from "apis";
-import { Todo } from "types/todos";
+import { ReturnData, Todo } from "types/todos";
 
 export const GetTodosKey = "/todos";
 export const PostTodoKey = "/todos";
@@ -8,12 +8,12 @@ export const PutTodoKey = (id: string) => `/todos/${id}`;
 export const DeleteTodoKey = (id: string) => `/todos/${id}`;
 
 export const getTodos = async () => {
-  const { data } = await restApi.get<Todo[]>(GetTodosKey);
-  return data;
+  const { data } = await restApi.get<ReturnData<Todo[]>>(GetTodosKey);
+  return data.data.reverse();
 };
 
 export const getTodoCountOnly = async () => {
-  const { data } = await restApi.get<number>(GetTodosKey, {
+  const { data } = await restApi.get<ReturnData<number>>(GetTodosKey, {
     params: {
       countOnly: "true",
     },
@@ -22,23 +22,30 @@ export const getTodoCountOnly = async () => {
 };
 
 export const getTodoById = async (id: string) => {
-  const { data } = await restApi.get<Todo>(GetTodoByIdKey(id));
-  return data;
+  const { data } = await restApi.get<ReturnData<Todo>>(GetTodoByIdKey(id));
+  return data.data;
 };
 
 export const postTodo = async (
   requestBody: Pick<Todo, "title" | "content">
 ) => {
-  const { data } = await restApi.post(PostTodoKey, requestBody);
+  const { data } = await restApi.post<ReturnData<Todo>>(
+    PostTodoKey,
+    requestBody
+  );
+  console.log("post !!! ::: ", data);
 
-  return data;
+  return data.data;
 };
 
 export const putTodo = async (
   id: string,
   requestBody: Pick<Todo, "title" | "content">
 ) => {
-  const { data } = await restApi.put<Todo>(PutTodoKey(id), requestBody);
+  const { data } = await restApi.put<ReturnData<Todo>>(
+    PutTodoKey(id),
+    requestBody
+  );
 
   return data;
 };

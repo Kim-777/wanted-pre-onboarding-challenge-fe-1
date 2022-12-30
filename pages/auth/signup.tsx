@@ -11,6 +11,7 @@ import { signUp } from "apis/auth";
 import { setTokenToLocalStorage } from "utils/localStorage";
 import { checkErrorOfAxios } from "utils/checkErrorOfAxios";
 import { useRouter } from "next/router";
+import { setTokenToAxiosHeader } from "apis";
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +42,7 @@ const SignUp: NextPageWithLayout = () => {
     mutationFn: signUp,
     onSuccess({ token, message }) {
       alert(message);
+      setTokenToAxiosHeader(token);
       setTokenToLocalStorage(token);
       router.replace("/");
     },

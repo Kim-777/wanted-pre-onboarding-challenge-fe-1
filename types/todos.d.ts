@@ -1,4 +1,11 @@
 export type Todo = {
-  title: string;
   content: string;
+  createdAt: string;
+  id: string;
+  title: string;
+  updatedAt: string;
+};
+
+export type ReturnData<T> = {
+  data: T;
 };

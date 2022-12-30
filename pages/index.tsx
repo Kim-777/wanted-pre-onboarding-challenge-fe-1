@@ -9,6 +9,7 @@ import {
 } from "utils/localStorage";
 import Link from "next/link";
 import Loading from "components/Loading";
+import { deleteTokenAtAxiosHeader, setTokenToAxiosHeader } from "apis";
 
 const cx = classNames.bind(styles);
 
@@ -42,6 +43,7 @@ export default function Home() {
         {isLogged ? (
           <button
             onClick={() => {
+              deleteTokenAtAxiosHeader();
               removeTokenAtLocalStorage();
               setIsLogged(false);
             }}

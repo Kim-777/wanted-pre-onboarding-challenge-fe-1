@@ -1,0 +1,32 @@
+.wrapper {
+  padding: 12px;
+  background-color: whitesmoke;
+  max-height: fit-content;
+  
+  min-width: 300px;
+  // position: relative;
+}
+
+.create_btn {
+  // position: fixed;
+  top: 12;
+  padding: 12px;
+  background-color: wheat;
+  border-radius: 12px;
+}
+.go_main_btn {
+  margin-left: 50px;
+  font-size: 12px;
+}
+
+.list_wrapper {
+  overflow-y: scroll;
+  margin-top: 12px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty_todo {
+  margin-top: 12px;
+}
