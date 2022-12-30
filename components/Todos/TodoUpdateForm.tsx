@@ -12,10 +12,12 @@ const cx = classNames.bind(styles);
 
 type Inputs = Pick<Todo, "title" | "content">;
 
-type Props = Todo;
+type Props = Todo & {
+  onBack: () => void;
+};
 
 // TODO 수정 페이지 완성하고 스타일 꾸며주기
-const TodoUpdateForm = ({ title, content, id }: Todo) => {
+const TodoUpdateForm = ({ title, content, id, onBack }: Props) => {
   const queryClient = useQueryClient();
 
   const {
@@ -97,13 +99,18 @@ const TodoUpdateForm = ({ title, content, id }: Todo) => {
           alert={GuideSpans.content()}
           {...register("content", { required: "내용을 입력하세요." })}
         />
-        <button
-          disabled={!watch("content" || !watch("title"))}
-          type="submit"
-          className={cx({ form_btn: true })}
-        >
-          작성하기
-        </button>
+        <div>
+          <button
+            disabled={!watch("content" || !watch("title"))}
+            type="submit"
+            className={cx({ form_btn: true })}
+          >
+            작성하기
+          </button>
+          <button onClick={onBack} type="button">
+            디테일 페이지 가기
+          </button>
+        </div>
       </form>
     </div>
   );
