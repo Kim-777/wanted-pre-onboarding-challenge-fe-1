@@ -11,12 +11,10 @@ import AuthLayout from "components/Layouts/AuthLayout";
 const cx = classNames.bind(styles);
 
 const Todos: NextPageWithLayout = () => {
-  const [selectedTodo, setSelectedTodo] = React.useState<Todo | null>(null);
-
   return (
     <div className={cx({ wrapper: true })}>
-      <TodoListSection onSelect={setSelectedTodo} />
-      <TodoMainSection />
+      <TodoListSection />
+      <TodoMainSection pageStatus="create" />
     </div>
   );
 };

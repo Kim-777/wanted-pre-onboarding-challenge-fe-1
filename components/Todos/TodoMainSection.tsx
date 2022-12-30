@@ -7,15 +7,18 @@ import DetailTodo from "./DetailTodo";
 
 const cx = classNames.bind(styles);
 
+export type EnabledTodoMainPage = "create" | "detail" | "modify";
+
 type Props = {
-  detail?: boolean;
+  pageStatus: EnabledTodoMainPage;
 };
 
-const TodoMainSection = ({ detail }: Props) => {
+const TodoMainSection = ({ pageStatus }: Props) => {
   return (
     <div className={cx({ wrapper: true })}>
-      {!detail && <TodoForm />}
-      {detail && <DetailTodo />}
+      {pageStatus === "create" && <TodoForm />}
+      {pageStatus === "detail" && <DetailTodo />}
+      {pageStatus === "modify" && <TodoUpdateForm />}
     </div>
   );
 };

@@ -86,7 +86,9 @@ const DetailTodo = () => {
           <div>
             <button
               onClick={() => {
-                setIsModifyMode(true);
+                router.push(
+                  `/todos/${detailQuery.data.id}/modify?title=${detailQuery.data.title}&content=${detailQuery.data.content}`
+                );
               }}
             >
               수정
@@ -94,14 +96,6 @@ const DetailTodo = () => {
             <button onClick={handleDelete}>삭제</button>
           </div>
         </div>
-      )}
-      {isModifyMode && (
-        <TodoUpdateForm
-          {...detailQuery.data}
-          onBack={() => {
-            setIsModifyMode(false);
-          }}
-        />
       )}
     </div>
   );

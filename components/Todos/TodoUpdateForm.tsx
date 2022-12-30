@@ -7,28 +7,28 @@ import classNames from "classnames/bind";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GetTodosKey, postTodo } from "apis/todos";
 import { checkErrorOfAxios } from "utils/checkErrorOfAxios";
+import { useRouter } from "next/router";
 
 const cx = classNames.bind(styles);
 
 type Inputs = Pick<Todo, "title" | "content">;
 
-type Props = Todo & {
-  onBack: () => void;
-};
+type Props = {};
 
 // TODO 수정 페이지 완성하고 스타일 꾸며주기
-const TodoUpdateForm = ({ title, content, id, onBack }: Props) => {
+const TodoUpdateForm = ({}: Props) => {
   const queryClient = useQueryClient();
-
+  const router = useRouter();
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
+    setValue,
   } = useForm<Inputs>({
     defaultValues: {
-      title,
-      content,
+      title: "",
+      content: "",
     },
   });
 
@@ -81,6 +81,13 @@ const TodoUpdateForm = ({ title, content, id, onBack }: Props) => {
     },
   };
 
+  React.useEffect(() => {
+    if (!router.isReady) return;
+
+    setValue("title", router.query.title as string);
+    setValue("content", router.query.content as string);
+  }, [router]);
+
   return (
     <div>
       <form onSubmit={onSubmit} className={cx({ form: true })}>
@@ -107,7 +114,12 @@ const TodoUpdateForm = ({ title, content, id, onBack }: Props) => {
           >
             작성하기
           </button>
-          <button onClick={onBack} type="button">
+          <button
+            onClick={() => {
+              router.replace(`/todos/${router.query.id}`);
+            }}
+            type="button"
+          >
             디테일 페이지 가기
           </button>
         </div>

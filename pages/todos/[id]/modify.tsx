@@ -1,24 +1,24 @@
 import OnlyLoginUserAvailableLayout from "components/Layouts/OnlyLoginUserAvailableLayout";
 import TodoListSection from "components/Todos/TodoListSection";
 import TodoMainSection from "components/Todos/TodoMainSection";
-import styles from "./todos.module.scss";
+import styles from "./todo.module.scss";
 import classNames from "classnames/bind";
 import { NextPageWithLayout } from "pages/_app";
 import React from "react";
 
 const cx = classNames.bind(styles);
 
-const DetailTodo: NextPageWithLayout = () => {
+const ModifyTodo: NextPageWithLayout = () => {
   return (
     <div className={cx({ wrapper: true })}>
       <TodoListSection />
-      <TodoMainSection pageStatus="detail" />
+      <TodoMainSection pageStatus="modify" />
     </div>
   );
 };
 
-export default DetailTodo;
+export default ModifyTodo;
 
-DetailTodo.getLayout = (page) => {
+ModifyTodo.getLayout = (page) => {
   return <OnlyLoginUserAvailableLayout>{page}</OnlyLoginUserAvailableLayout>;
 };
