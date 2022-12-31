@@ -20,6 +20,7 @@ const TodoForm = () => {
     formState: { errors },
     handleSubmit,
     watch,
+    reset,
   } = useForm<Inputs>({
     defaultValues: {
       title: "",
@@ -32,6 +33,7 @@ const TodoForm = () => {
     onSuccess() {
       alert("투두 리스트 작성 성공");
       queryClient.invalidateQueries({ queryKey: [GetTodosKey] });
+      reset();
     },
     onError(error) {
       if (checkErrorOfAxios(error)) {

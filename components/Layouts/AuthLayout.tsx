@@ -30,7 +30,11 @@ const AuthLayout = ({ children }: Props) => {
 
   return (
     <DefaultLayout>
-      <Link href="/" title="인덱스 페이지 가기">
+      <Link
+        className={cx({ button: true })}
+        href="/"
+        title="인덱스 페이지 가기"
+      >
         메인 페이지로 가기
       </Link>
       <div className={cx({ wrapper: true })}>{children}</div>

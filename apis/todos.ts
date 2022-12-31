@@ -33,7 +33,6 @@ export const postTodo = async (
     PostTodoKey,
     requestBody
   );
-  console.log("post !!! ::: ", data);
 
   return data.data;
 };
@@ -52,6 +51,5 @@ export const putTodo = async (
 
 export const removeTodo = async (id: string) => {
   const { data } = await restApi.delete(DeleteTodoKey(id));
-  console.log("removeTodo :::: ", data);
   return data;
 };

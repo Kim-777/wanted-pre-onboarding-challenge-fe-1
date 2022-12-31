@@ -10,12 +10,14 @@ import {
 import Link from "next/link";
 import Loading from "components/Loading";
 import { deleteTokenAtAxiosHeader, setTokenToAxiosHeader } from "apis";
+import { useRouter } from "next/router";
 
 const cx = classNames.bind(styles);
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
   const [isLogged, setIsLogged] = React.useState<boolean | null>(null);
 
   React.useEffect(() => {
@@ -70,9 +72,26 @@ export default function Home() {
           </>
         )}
 
-        <Link href="/todos" className={cx({ button: true })}>
+        <button
+          onClick={() => {
+            if (!getTokenAtLocalStorage()) {
+              if (
+                confirm(
+                  "로그인 후 이용가능한 페이지입니다. 로그인하러 가시겠습니까?"
+                )
+              ) {
+                router.push("/auth/login");
+                return;
+              }
+              return;
+            }
+
+            router.push("/todos");
+          }}
+          className={cx({ button: true })}
+        >
           투두 리스트
-        </Link>
+        </button>
       </div>
     </>
   );

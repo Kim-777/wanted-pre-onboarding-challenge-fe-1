@@ -5,7 +5,7 @@ import { Todo } from "types/todos";
 import styles from "./TodoForm.module.scss";
 import classNames from "classnames/bind";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { GetTodosKey, postTodo } from "apis/todos";
+import { GetTodosKey, postTodo, putTodo } from "apis/todos";
 import { checkErrorOfAxios } from "utils/checkErrorOfAxios";
 import { useRouter } from "next/router";
 
@@ -13,10 +13,7 @@ const cx = classNames.bind(styles);
 
 type Inputs = Pick<Todo, "title" | "content">;
 
-type Props = {};
-
-// TODO 수정 페이지 완성하고 스타일 꾸며주기
-const TodoUpdateForm = ({}: Props) => {
+const TodoUpdateForm = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const {
@@ -25,6 +22,7 @@ const TodoUpdateForm = ({}: Props) => {
     handleSubmit,
     watch,
     setValue,
+    reset,
   } = useForm<Inputs>({
     defaultValues: {
       title: "",
@@ -32,11 +30,16 @@ const TodoUpdateForm = ({}: Props) => {
     },
   });
 
-  const postTodoMutation = useMutation({
-    mutationFn: postTodo,
+  const putTodoMutation = useMutation({
+    mutationFn: async (requestBody: Inputs) => {
+      const result = await putTodo(router.query.id as string, requestBody);
+
+      return result;
+    },
     onSuccess() {
-      alert("투두 리스트 작성 성공");
+      alert("투두 리스트 수정 성공");
       queryClient.invalidateQueries({ queryKey: [GetTodosKey] });
+      reset();
     },
     onError(error) {
       if (checkErrorOfAxios(error)) {
@@ -44,14 +47,13 @@ const TodoUpdateForm = ({}: Props) => {
         return;
       }
 
-      alert("투두 작성에 실패했습니다.");
+      alert("투두 수정에 실패했습니다.");
     },
   });
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(
     handleSubmit((requestBody) => {
-      console.log("requestBody ::::: ", requestBody);
-      postTodoMutation.mutate(requestBody);
+      putTodoMutation.mutate(requestBody);
     }),
     []
   );
@@ -108,11 +110,13 @@ const TodoUpdateForm = ({}: Props) => {
         />
         <div>
           <button
-            disabled={!watch("content" || !watch("title"))}
+            disabled={
+              !watch("content" || !watch("title")) || putTodoMutation.isLoading
+            }
             type="submit"
             className={cx({ form_btn: true })}
           >
-            작성하기
+            수정하기
           </button>
           <button
             className={cx({ form_btn: true })}

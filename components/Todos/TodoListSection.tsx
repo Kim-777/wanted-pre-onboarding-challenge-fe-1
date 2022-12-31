@@ -45,7 +45,7 @@ const TodoListSection = () => {
           todosQuery.data.map((todo) => <TodoListItem {...todo} />)
         ) : (
           <div className={cx({ empty_todo: true })}>
-            작성된 투두리스트가 없습니다.??
+            작성된 투두리스트가 없습니다.
           </div>
         )}
       </div>

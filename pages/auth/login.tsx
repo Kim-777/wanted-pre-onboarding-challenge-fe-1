@@ -101,7 +101,7 @@ const Login: NextPageWithLayout = () => {
         })}
       />
       <InputWithAlert
-        label="비밇번호"
+        label="비밀번호"
         alert={GuideSpans.password()}
         type="password"
         {...register("password", {
