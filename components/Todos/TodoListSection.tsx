@@ -7,10 +7,12 @@ import { Todo } from "types/todos";
 import { useQuery } from "@tanstack/react-query";
 import { getTodos, GetTodosKey } from "apis/todos";
 import Loading from "components/Loading";
+import { useRouter } from "next/router";
 
 const cx = classNames.bind(styles);
 
 const TodoListSection = () => {
+  const router = useRouter();
   const todosQuery = useQuery({
     queryKey: [GetTodosKey],
     queryFn: getTodos,
@@ -23,7 +25,14 @@ const TodoListSection = () => {
 
   return (
     <div className={cx({ wrapper: true })}>
-      <button className={cx({ create_btn: true })}>새로운 TODO 만들기</button>
+      <button
+        onClick={() => {
+          router.push("/todos");
+        }}
+        className={cx({ create_btn: true })}
+      >
+        새로운 TODO 만들기
+      </button>
       <Link
         href="/"
         title="인덱스 페이지 가기"

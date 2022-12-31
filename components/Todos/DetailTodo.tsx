@@ -13,6 +13,7 @@ import Loading from "components/Loading";
 import TodoUpdateForm from "./TodoUpdateForm";
 import { checkErrorOfAxios } from "utils/checkErrorOfAxios";
 import { Todo } from "types/todos";
+import dayjs from "dayjs";
 
 const cx = classNames.bind(styles);
 
@@ -68,23 +69,31 @@ const DetailTodo = () => {
     <div className={cx({ wrapper: true })}>
       {!isModifyMode && (
         <div>
-          <div>
-            <div>타이틀</div>
+          <div className={cx({ item_wrapper: true })}>
+            <h6 className={cx({ article_title: true })}>타이틀</h6>
             <h4>{detailQuery.data.title}</h4>
           </div>
 
           <div>
-            <div>할일 내용</div>
+            <h6 className={cx({ article_title: true })}>할일 내용</h6>
             <div>{detailQuery.data.content}</div>
           </div>
 
-          <div>
-            <div>생성일 : {detailQuery.data.createdAt}</div>
-            <div>수정일 : {detailQuery.data.updatedAt}</div>
+          <div className={cx({ item_wrapper: true })}>
+            <h6 className={cx({ article_title: true })}>날짜</h6>
+            <div>
+              생성일 :{" "}
+              {dayjs(detailQuery.data.createdAt).format("YYYY. MM. DD HH:mm")}
+            </div>
+            <div>
+              수정일 :{" "}
+              {dayjs(detailQuery.data.updatedAt).format("YYYY. MM. DD HH:mm")}
+            </div>
           </div>
 
-          <div>
+          <div className={cx({ item_wrapper: true })}>
             <button
+              className={cx({ method_fn_btn: true })}
               onClick={() => {
                 router.push(
                   `/todos/${detailQuery.data.id}/modify?title=${detailQuery.data.title}&content=${detailQuery.data.content}`
@@ -93,7 +102,12 @@ const DetailTodo = () => {
             >
               수정
             </button>
-            <button onClick={handleDelete}>삭제</button>
+            <button
+              className={cx({ method_fn_btn: true })}
+              onClick={handleDelete}
+            >
+              삭제
+            </button>
           </div>
         </div>
       )}

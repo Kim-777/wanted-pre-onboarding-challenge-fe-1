@@ -12,7 +12,7 @@ const DetailTodo: NextPageWithLayout = () => {
   return (
     <div className={cx({ wrapper: true })}>
       <TodoListSection />
-      <TodoMainSection detail />
+      <TodoMainSection pageStatus="detail" />
     </div>
   );
 };

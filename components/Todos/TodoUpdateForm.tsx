@@ -91,7 +91,7 @@ const TodoUpdateForm = ({}: Props) => {
   return (
     <div>
       <form onSubmit={onSubmit} className={cx({ form: true })}>
-        <h4>할일을 수정해주세요.</h4>
+        <h3>할일을 수정해주세요.</h3>
         <InputWithAlert
           type="text"
           placeholder="제목을 입력하세요."
@@ -115,6 +115,7 @@ const TodoUpdateForm = ({}: Props) => {
             작성하기
           </button>
           <button
+            className={cx({ form_btn: true })}
             onClick={() => {
               router.replace(`/todos/${router.query.id}`);
             }}

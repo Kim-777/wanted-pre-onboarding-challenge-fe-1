@@ -1,3 +1,26 @@
 .wrapper {
-  
+  border: 1px solid rgb(209, 209, 209);
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.item_wrapper {
+  margin-block: 32px;
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
+}
+
+.article_title {
+  padding-block: 8px;
+  font-size: 20px;
+}
+
+.method_fn_btn {
+  background-color:bisque;
+  padding-block: 12px;
+  padding-inline: 20px;
+  margin-right: 12px;
+  border-radius: 8px;
 }
